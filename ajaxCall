@@ -1,0 +1,77 @@
+ $("#search").submit(function (event) {
+        event.preventDefault()
+        let division = $('#division').val();
+        let  divisionID="";
+        let divisionName="";
+        let arrayDivision="";
+        if (division != null){
+            arrayDivision = division.split("?");
+
+            divisionID=arrayDivision[0];
+            divisionName= arrayDivision[1];
+        }
+
+
+
+        let district = $('#district').val();
+        let  districtID="";
+        let  districtName="";
+
+        if(district != null){
+            let  arrayDistrict = district.split("?");
+            districtID=arrayDistrict[0];
+            districtName= arrayDistrict[1];
+        }
+
+
+        let upazila= $('#upazila').val();
+        let  upazilaID="";
+        let  upazilaName="";
+
+        if(upazila != null){
+            let  arrayUpazila = district.split("?");
+            districtID=arrayUpazila[0];
+            districtName= arrayUpazila[1];
+        }
+
+
+        $.ajax({
+            type : "GET",
+            contentType : "application/json",
+            url : '${member_report_url}'+"?division="+divisionName+"&division_Id="+divisionID+"&district="+districtName +"&district_id="+districtID+"&upazila="+upazilaName+"&upazila_id="+upazilaID,
+            dataType : 'html',
+            timeout : 300000,
+            beforeSend: function(xhr) {
+                $('#loading').show();
+                $('#search-button').attr("disabled", true);
+            },
+            success : function(data) {
+                $('#loading').hide();
+                $("#reports").html(data);
+                $('#search-button').attr("disabled", false);
+            },
+            error : function(e) {
+                $('#loading').hide();
+                $('#search-button').attr("disabled", false);
+            },
+            complete : function(e) {
+                $('#loading').hide();
+                $('#search-button').attr("disabled", false);
+            }
+        });
+    });
+    
+    
+    
+    // url 
+    //<c:url var="member_report_url" value="/reportAjax" />
+    
+    //loading image gif 
+    
+            <div class="row">
+            <div id="loading" style="display: none;position: absolute; z-index: 1000;margin-left:45%">
+                <img width="50px" height="50px" src="<c:url value="/resources/images/ajax-loading.gif"/>">
+            </div>
+        </div>
+        
+        
